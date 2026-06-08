@@ -2,7 +2,16 @@
   "name": "pg-branch-migrate",
   "version": "0.1.0",
   "description": "Alembic-lite DAG migrations for PostgreSQL and TypeScript",
+  "license": "MIT",
   "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/radek-baczynski/pg-branch-migrate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/radek-baczynski/pg-branch-migrate/issues"
+  },
+  "homepage": "https://github.com/radek-baczynski/pg-branch-migrate#readme",
   "bin": {
     "pgm": "./dist/cli.js"
   },
