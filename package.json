@@ -1,0 +1,38 @@
+{
+  "name": "pg-branch-migrate",
+  "version": "0.1.0",
+  "description": "Alembic-lite DAG migrations for PostgreSQL and TypeScript",
+  "type": "module",
+  "bin": {
+    "pgm": "./dist/cli.js"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:integration": "vitest run test/integration",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "jiti": "^2.6.1",
+    "pg": "^8.13.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/pg": "^8.11.10",
+    "typescript": "^5.7.2",
+    "vitest": "^4.1.8"
+  },
+  "engines": {
+    "node": ">=20.11.0"
+  }
+}
