@@ -27,6 +27,7 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
+    "examples": "node scripts/run-examples.mjs",
     "test": "vitest run",
     "test:integration": "vitest run test/integration",
     "clean": "rm -rf dist"
