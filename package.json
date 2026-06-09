@@ -27,9 +27,12 @@
   "scripts": {
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
+    "ci": "npm run typecheck && npm run build && npm test && npm run examples && npm run pack:check",
     "examples": "node scripts/run-examples.mjs",
     "test": "vitest run",
+    "test:unit": "vitest run test/unit",
     "test:integration": "vitest run test/integration",
+    "pack:check": "npm pack --dry-run",
     "clean": "rm -rf dist"
   },
   "dependencies": {

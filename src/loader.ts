@@ -74,6 +74,10 @@ function normalizeLabels(
     return [];
   }
 
+  if (!Array.isArray(branchLabels)) {
+    throw new Error(`Migration ${revision} has an invalid branch label`);
+  }
+
   for (const label of branchLabels) {
     if (typeof label !== 'string' || label.trim().length === 0) {
       throw new Error(`Migration ${revision} has an invalid branch label`);
@@ -91,14 +95,23 @@ function extractDefinition(
     loadedModule && typeof loadedModule === 'object'
       ? (loadedModule as Record<string, unknown>)
       : undefined;
-  const candidate = record?.default ?? record?.migration ?? loadedModule;
+  const defaultExport = record?.default;
+  const namedExport = record?.migration;
+  const candidate = isMigrationCandidate(defaultExport)
+    ? defaultExport
+    : isMigrationCandidate(namedExport)
+      ? namedExport
+      : (defaultExport ?? namedExport ?? loadedModule);
 
   if (!candidate || typeof candidate !== 'object') {
     throw new Error(`Migration file ${filePath} did not export a migration`);
   }
 
   const migration = candidate as MigrationDefinition;
-  if (typeof migration.revision !== 'string' || migration.revision.length === 0) {
+  if (
+    typeof migration.revision !== 'string' ||
+    migration.revision.trim().length === 0
+  ) {
     throw new Error(`Migration file ${filePath} has no revision`);
   }
 
@@ -111,6 +124,14 @@ function extractDefinition(
   }
 
   return migration;
+}
+
+function isMigrationCandidate(value: unknown): value is MigrationDefinition {
+  if (!value || typeof value !== 'object') {
+    return false;
+  }
+
+  return 'revision' in value || 'up' in value || 'down' in value;
 }
 
 export async function loadMigrations(
